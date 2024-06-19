@@ -1,14 +1,16 @@
 package com.mas.app.controller;
 
-import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mas.app.model.DocumentInfo;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class HomeController {
@@ -25,9 +27,9 @@ public class HomeController {
     }
 
     @PostMapping("/analyze")
-    public String analyzeURL(@ModelAttribute DocumentInfo documentInfo, Model model) {
-      System.out.println("Analyze URL");
-      System.out.println(documentInfo.getUrl());
+    public String analyzeURL(@Valid @ModelAttribute DocumentInfo documentInfo, BindingResult bindingResult, Model model) {
+      System.out.println("Analyzing URL....");
+      if(bindingResult.hasErrors()) return "index";
         return "redirect:/";
     }
 }
