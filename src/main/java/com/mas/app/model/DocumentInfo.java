@@ -22,5 +22,8 @@ public class DocumentInfo {
   private String url;
   private String htmlVersion;
   private String title;
+  private boolean isReachable;
+  private boolean parsed;
   private List<HashMap<String, Number>> headings;
+  private String message;
 }
