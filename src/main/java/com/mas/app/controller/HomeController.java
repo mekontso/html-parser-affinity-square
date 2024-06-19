@@ -13,11 +13,14 @@ import com.mas.app.model.DocumentInfo;
 @Controller
 public class HomeController {
 
+  /**
+   * This method is used to display the home page
+   * @param model Model object for form binding
+   * @return index.html
+   */
     @RequestMapping("/")
     public String viewHomePage(Model model) {
-      var documentInfo = new DocumentInfo();
-      model.addAttribute("documentInfo", documentInfo);
-      model.addAttribute("serverTime", LocalDateTime.now());
+      model.addAttribute("documentInfo", new DocumentInfo());
         return "index";
     }
 
