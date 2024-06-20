@@ -48,21 +48,33 @@ class HtmlParserAffinitySquareApplicationTests {
 
 	@Test
 	void testCode() throws IOException {
-		Document document = Jsoup.connect("https://github.com/").get();
-		Map<String, Number> linksCount = new HashMap<>();
-		Elements links = document.getElementsByTag("a");
-		int external = 0;
-		int internal = 0;
-		for(Element link : links) {
-			if(link.attr("href").contains("http://") || link.attr("href").contains("https://")) {
-				external++;
-			} else {
-				internal++;
-			}
-		}
-		linksCount.put("external", external);
-		linksCount.put("internal", internal);
-		System.out.println(linksCount);
+
+	}
+
+	@Test
+	void testDetectLoginForm() {
+		String htmlWithLoginForm = "<html><body>"
+				+ "<form method='post'>"
+				+ "<input type='text' name='username'/>"
+				+ "<input type='password' name='password'/>"
+				+ "</form>"
+				+ "</body></html>";
+
+		String htmlWithoutLoginForm = "<html><body>"
+				+ "<form method='get'>"
+				+ "<input type='text' name='username'/>"
+				+ "<input type='password' name='password'/>"
+				+ "</form>"
+				+ "<form method='post'>"
+				+ "<input type='text' name='username'/>"
+				+ "</form>"
+				+ "</body></html>";
+
+		Document documentWithLoginForm = Jsoup.parse(htmlWithLoginForm);
+		Document documentWithoutLoginForm = Jsoup.parse(htmlWithoutLoginForm);
+
+		assertThat(utils.detectLoginForm(documentWithLoginForm)).isTrue();
+		assertThat(utils.detectLoginForm(documentWithoutLoginForm)).isFalse();
 	}
 
 	@Test

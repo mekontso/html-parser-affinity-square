@@ -38,6 +38,7 @@ public class AnalyzeHtmlServiceImpl implements AnalyzeHtmlService {
 
                 documentInfo.setHeadings(utils.countHeadings(document));
                 documentInfo.setLinks(utils.countLinks(document));
+                documentInfo.setLoginForm(utils.detectLoginForm(document));
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
