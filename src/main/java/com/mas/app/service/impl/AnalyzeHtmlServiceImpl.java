@@ -8,10 +8,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Service
 @RequiredArgsConstructor
 public class AnalyzeHtmlServiceImpl implements AnalyzeHtmlService {
@@ -27,14 +23,20 @@ public class AnalyzeHtmlServiceImpl implements AnalyzeHtmlService {
             //check if connection is a success
             if (document.connection().response().statusCode() == 200) {
                 documentInfo.setReachable(true);
-                System.out.println("Log doctype of page");
-                System.out.println(document.getElementsByTag("!doctype").html());
+                // get the !doctype tag as child node 0 and extract the version
+                documentInfo.setHtmlVersion(
+                        utils.extractHtmlVersion(document.childNode(0).toString())
+                );
+                // set title if any
+                var title = document.title();
+                if (title.isEmpty()) {
+                    documentInfo.setTitle("No title found");
+                } else {
+                    documentInfo.setTitle(title);
+                }
                 documentInfo.setUrl(document.location());
-                documentInfo.setTitle(document.title());
-                documentInfo.setHeadings(List.of(
-                        new HashMap<>(Map.of("h1", 1)),
-                        new HashMap<>(Map.of("h2", 3))
-                ));
+
+                documentInfo.setHeadings( utils.countHeadings(document));
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

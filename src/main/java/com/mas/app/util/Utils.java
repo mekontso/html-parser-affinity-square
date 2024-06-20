@@ -1,6 +1,8 @@
 package com.mas.app.util;
 
 import lombok.NoArgsConstructor;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -20,7 +22,22 @@ public class Utils {
     }
 
     /**
+     * Function will get each heading count from h1 to h6. It will return a map with heading and count
+     * @param document the document object
+     * @return a map with headings and count
+     */
+    public Map<String, Integer> countHeadings(Document document) {
+        Map<String, Integer> headingsCount = new HashMap<>();
+        for (int i = 1; i <= 6; i++) {
+            Elements headings = document.select("h" + i);
+            headingsCount.put("h" + i, headings.size());
+        }
+        return headingsCount;
+    }
+
+    /**
      * Extracts the HTML version from the doctype tag
+     *
      * @param doctypeTag the doctype tag
      * @return the HTML version
      */

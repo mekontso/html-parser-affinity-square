@@ -1,7 +1,8 @@
 package com.mas.app.model;
 
-import java.util.HashMap;
+
 import java.util.List;
+import java.util.Map;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -24,6 +25,6 @@ public class DocumentInfo {
   private String title;
   private boolean isReachable;
   private boolean parsed;
-  private List<HashMap<String, Number>> headings;
+  private Map<String, Integer> headings;
   private String message;
 }
