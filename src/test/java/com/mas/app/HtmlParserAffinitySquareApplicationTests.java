@@ -3,11 +3,13 @@ package com.mas.app;
 import com.mas.app.util.Utils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,24 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class HtmlParserAffinitySquareApplicationTests {
+	private String html = "<html><head><title>Test</title></head>"
+			+ "<body>"
+			+ "<h1>Heading 1</h1>"
+			+ "<h1>Another Heading 1</h1>"
+			+ "<h2>Heading 2</h2>"
+			+ "<h3>Heading 3</h3>"
+			+ "<h3>Another Heading 3</h3>"
+			+ "<h3>Yet Another Heading 3</h3>"
+			+ "<h4>Heading 4</h4>"
+			+ "<h5>Heading 5</h5>"
+			+ "<h6>Heading 6</h6>"
+			+ "<h6>Another Heading 6</h6>"
+			+ "<a href=\"http://external.com\">External Link</a>"
+			+ "<a href=\"https://external.com\">Another External Link</a>"
+			+ "<a href=\"/internal\">Internal Link</a>"
+			+ "<a href=\"#internal\">Another Internal Link</a>"
+			+ "</body></html>";
+	private Document document = Jsoup.parse(html);
 
 	@Autowired
 	private Utils utils;
@@ -27,26 +47,37 @@ class HtmlParserAffinitySquareApplicationTests {
 	}
 
 	@Test
-	void testCode(){
+	void testCode() throws IOException {
+		Document document = Jsoup.connect("https://github.com/").get();
+		Map<String, Number> linksCount = new HashMap<>();
+		Elements links = document.getElementsByTag("a");
+		int external = 0;
+		int internal = 0;
+		for(Element link : links) {
+			if(link.attr("href").contains("http://") || link.attr("href").contains("https://")) {
+				external++;
+			} else {
+				internal++;
+			}
+		}
+		linksCount.put("external", external);
+		linksCount.put("internal", internal);
+		System.out.println(linksCount);
+	}
+
+	@Test
+	void testCountLinks() {
+
+		Map<String, Integer> linksCount = utils.countLinks(document);
+
+		assertThat(linksCount).isNotNull();
+		assertThat(linksCount.get("external")).isEqualTo(2);
+		assertThat(linksCount.get("internal")).isEqualTo(2);
 	}
 
 	@Test
 	void testCountHeadings() {
-		String html = "<html><head><title>Test</title></head>"
-				+ "<body>"
-				+ "<h1>Heading 1</h1>"
-				+ "<h1>Another Heading 1</h1>"
-				+ "<h2>Heading 2</h2>"
-				+ "<h3>Heading 3</h3>"
-				+ "<h3>Another Heading 3</h3>"
-				+ "<h3>Yet Another Heading 3</h3>"
-				+ "<h4>Heading 4</h4>"
-				+ "<h5>Heading 5</h5>"
-				+ "<h6>Heading 6</h6>"
-				+ "<h6>Another Heading 6</h6>"
-				+ "</body></html>";
 
-		Document document = Jsoup.parse(html);
 		Map<String, Integer> headingCount = utils.countHeadings(document);
 
 		assertThat(headingCount).isNotNull();

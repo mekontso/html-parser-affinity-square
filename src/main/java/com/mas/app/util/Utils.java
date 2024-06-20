@@ -2,6 +2,7 @@ package com.mas.app.util;
 
 import lombok.NoArgsConstructor;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +34,25 @@ public class Utils {
             headingsCount.put("h" + i, headings.size());
         }
         return headingsCount;
+    }
+
+    public Map<String, Integer> countLinks(Document document) {
+        Map<String, Integer> linksCount = new HashMap<>();
+        Elements links = document.getElementsByTag("a");
+        int external = 0;
+        int internal = 0;
+        for (Element link : links) {
+            String href = link.attr("href");
+            if (href.startsWith("http://") || href.startsWith("https://")) {
+                external++;
+            } else {
+                internal++;
+            }
+        }
+        linksCount.put("external", external);
+        linksCount.put("internal", internal);
+        System.out.println(linksCount);
+        return linksCount;
     }
 
     /**

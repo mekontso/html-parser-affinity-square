@@ -36,7 +36,8 @@ public class AnalyzeHtmlServiceImpl implements AnalyzeHtmlService {
                 }
                 documentInfo.setUrl(document.location());
 
-                documentInfo.setHeadings( utils.countHeadings(document));
+                documentInfo.setHeadings(utils.countHeadings(document));
+                documentInfo.setLinks(utils.countLinks(document));
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());

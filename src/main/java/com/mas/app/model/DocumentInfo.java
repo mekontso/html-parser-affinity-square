@@ -26,5 +26,6 @@ public class DocumentInfo {
   private boolean isReachable;
   private boolean parsed;
   private Map<String, Integer> headings;
+  private Map<String, Integer> links;
   private String message;
 }
