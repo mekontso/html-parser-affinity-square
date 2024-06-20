@@ -2,6 +2,8 @@ package com.mas.app.service.impl;
 
 import com.mas.app.model.DocumentInfo;
 import com.mas.app.service.AnalyzeHtmlService;
+import com.mas.app.util.Utils;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
@@ -11,16 +13,22 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class AnalyzeHtmlServiceImpl implements AnalyzeHtmlService {
+
+    private final Utils utils;
+
     @Override
     public DocumentInfo analyzeHtml(String url) {
         DocumentInfo documentInfo = new DocumentInfo();
         try {
             // send request get document page
             Document document = Jsoup.connect(url).get();
-            //check is
+            //check if connection is a success
             if (document.connection().response().statusCode() == 200) {
                 documentInfo.setReachable(true);
+                System.out.println("Log doctype of page");
+                System.out.println(document.getElementsByTag("!doctype").html());
                 documentInfo.setUrl(document.location());
                 documentInfo.setTitle(document.title());
                 documentInfo.setHeadings(List.of(
@@ -36,4 +44,6 @@ public class AnalyzeHtmlServiceImpl implements AnalyzeHtmlService {
         documentInfo.setParsed(true);
         return documentInfo;
     }
+
+
 }

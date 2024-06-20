@@ -5,21 +5,27 @@
       <h2 class="text-2xl font-bold mb-4 text-center">Parsed HTML Result</h2>
       <div class="bg-white shadow-md rounded-lg p-6">
         <div class="mb-4 flex">
-          <h3 class="text-md font-semibold">URL: </h3>
+          <h3 class="text-md font-semibold">URL S:</h3>
           <p th:text="${documentInfo.url}" class="text-gray-700"></p>
         </div>
         <div class="mb-4 flex">
-          <h3 class="text-md font-semibold">HTML Version: </h3>
+          <h3 class="text-md font-semibold">HTML Version :</h3>
           <p th:text="${documentInfo.htmlVersion}" class="text-gray-700"></p>
         </div>
         <div class="mb-4 flex">
-          <h3 class="text-md font-semibold">Title: </h3>
+          <h3 class="text-md font-semibold">Title :</h3>
           <p th:text="${documentInfo.title}" class="text-gray-700"></p>
         </div>
       </div>
     </div>
     <div th:unless="${documentInfo.isReachable == false}">
-      <h2 th:text="${documentInfo.message}" class="text-2xl font-bold mb-4 text-center"></h2>
+      <h2 class="text-2xl font-bold mb-4 text-center">Parsed HTML Result</h2>
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <div class="mb-4 flex">
+          <h3 class="text-md font-semibold">Message:</h3>
+          <p th:text="${documentInfo.message}" class="text-gray-700"></p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
