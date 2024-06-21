@@ -1,5 +1,6 @@
 package com.mas.app;
 
+import com.mas.app.model.Link;
 import com.mas.app.util.Utils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,8 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
