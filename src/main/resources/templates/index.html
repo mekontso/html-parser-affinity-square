@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="HTML Parser Affinity Square is a web application that allows users to analyze HTML web pages."
+    />
+    <meta name="author" content="Mekontso Anderson Saa" />
+    <meta
+      name="keywords"
+      content="HTML Parser, Web Analysis, Spring Boot, Thymeleaf, Tailwind CSS"
+    />
+
+    <title>HTML Parser</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="flex flex-col min-h-screen bg-background font-sans antialiased">
+  <header class="bg-blue-500 text-white">
+    <nav class=" border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+      <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+        <a href="/" class="flex items-center">
+          <img th:src="@{/images/logo.JPEG}" class="mr-3 h-6 sm:h-12" alt="HPAS logo" />
+          <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">HTML Parser Affinity Square</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+    <main class="flex-grow container mx-auto flex justify-center">
+      <div class="p-8">
+        <h2 class="text-2xl font-bold mb-4 text-center">Analyze HTML Page</h2>
+        <form
+          action="#"
+          th:action="@{/analyze}"
+          th:object="${documentInfo}"
+          method="post"
+          class="space-y-4"
+        >
+          <div>
+            <label for="url" class="block text-sm font-medium text-gray-700"
+              >URL</label
+            >
+            <input
+              type="url"
+              th:field="*{url}"
+              id="url"
+              name="url"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Enter the URL"
+              required
+              pattern="https?://.+"
+            />
+            <div
+              th:if="${#fields.hasErrors('url')}"
+              th:errors="*{url}"
+              class="text-red-600 text-sm"
+            ></div>
+          </div>
+          <div class="flex justify-center">
+            <button
+              type="submit"
+              class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Analyze
+            </button>
+          </div>
+        </form>
+        <!-- Result fragment -->
+        <div th:replace="~{fragments/resultFragment :: resultFragment}"></div>
+      </div>
+    </main>
+    <footer class="bg-blue-500 text-white text-center p-2">
+      <p>&copy; 2024 HTML Parser. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
