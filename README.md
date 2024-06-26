@@ -15,6 +15,7 @@ HTML Parser Affinity Square is a web application built with Spring Boot that all
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+- You can test online [HTML PARSER](http://html-parser.kontsotech.com/) 
 
 ## Prerequisites
 
